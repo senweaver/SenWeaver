@@ -1,0 +1,310 @@
+[
+  {
+    "id": 147696278204527,
+    "mode_type": 0,
+    "created_time": "2023-12-28T07:02:00",
+    "updated_time": "2024-11-01T07:20:42",
+    "description": "",
+    "name": "演示模式菜单",
+    "rules": [
+      {
+        "type": "value.table.menu.ids",
+        "field": "id",
+        "match": "in",
+        "table": "system.menu",
+        "value": "[{\"id\":147696278200390,\"label\":\"系统管理\"},{\"id\":147696278200391,\"label\":\"用户管理\"},{\"id\":147696278200392,\"label\":\"U-获取用户的列表\"},{\"id\":147696278200393,\"label\":\"U-添加用户数据\"},{\"id\":147696278200394,\"label\":\"U-批量删除用户\"},{\"id\":147696278200395,\"label\":\"U-导入用户数据\"},{\"id\":147696278200396,\"label\":\"U-导出用户数据\"},{\"id\":147696278200397,\"label\":\"U-部分更新用户信息\"},{\"id\":147696278200398,\"label\":\"U-删除用户数据\"},{\"id\":147696278200399,\"label\":\"U-重置用户密码\"},{\"id\":147696278200400,\"label\":\"U-解禁用户\"},{\"id\":147696278200401,\"label\":\"U-上传头像\"},{\"id\":147696278200402,\"label\":\"部门管理\"},{\"id\":147696278200403,\"label\":\"U-获取部门的列表\"},{\"id\":147696278200404,\"label\":\"U-添加部门数据\"},{\"id\":147696278200405,\"label\":\"U-批量删除部门\"},{\"id\":147696278200406,\"label\":\"U-导出部门数据\"},{\"id\":147696278200407,\"label\":\"U-导入部门数据\"},{\"id\":147696278200408,\"label\":\"U-部分更新部门信息\"},{\"id\":147696278200409,\"label\":\"U-删除部门数据\"},{\"id\":147696278200410,\"label\":\"U-给部门分配角色-数据权限\"},{\"id\":147696278200411,\"label\":\"菜单管理\"},{\"id\":147696278200412,\"label\":\"U-获取菜单的列表\"},{\"id\":147696278200413,\"label\":\"U-获取后端API列表\"},{\"id\":147696278200414,\"label\":\"U-导出菜单数据\"},{\"id\":147696278200415,\"label\":\"权限管理\"},{\"id\":147696278200416,\"label\":\"角色权限\"},{\"id\":147696278200417,\"label\":\"U-获取角色的列表\"},{\"id\":147696278200418,\"label\":\"U-添加角色数据\"},{\"id\":147696278200419,\"label\":\"U-批量删除角色\"},{\"id\":147696278200420,\"label\":\"U-导出角色数据\"},{\"id\":147696278200421,\"label\":\"U-导入角色数据\"},{\"id\":147696278200422,\"label\":\"U-获取角色的详情\"},{\"id\":147696278200423,\"label\":\"U-部分更新角色信息\"},{\"id\":147696278200424,\"label\":\"U-删除角色数据\"},{\"id\":147696278200425,\"label\":\"U-获取数据权限的列表\"},{\"id\":147696278200426,\"label\":\"数据权限\"},{\"id\":147696278200427,\"label\":\"U-添加数据权限数据\"},{\"id\":147696278200428,\"label\":\"U-批量删除数据权限\"},{\"id\":147696278200429,\"label\":\"U-导出数据权限数据\"},{\"id\":147696278200430,\"label\":\"U-导入数据权限数据\"},{\"id\":147696278200431,\"label\":\"U-部分更新数据权限信息\"},{\"id\":147696278200432,\"label\":\"U-删除数据权限数据\"},{\"id\":147696278200433,\"label\":\"字段管理\"},{\"id\":147696278200434,\"label\":\"U-获取模型字段的列表\"},{\"id\":147696278200435,\"label\":\"U-导出模型字段数据\"},{\"id\":147696278200436,\"label\":\"日志管理\"},{\"id\":147696278200437,\"label\":\"访问日志\"},{\"id\":147696278200438,\"label\":\"U-获取操作日志的列表\"},{\"id\":147696278200439,\"label\":\"U-批量删除操作日志\"},{\"id\":147696278200440,\"label\":\"U-导出操作日志数据\"},{\"id\":147696278200441,\"label\":\"U-删除操作日志数据\"},{\"id\":147696278200442,\"label\":\"登录日志\"},{\"id\":147696278200443,\"label\":\"U-获取登录日志的列表\"},{\"id\":147696278200444,\"label\":\"U-批量删除登录日志\"},{\"id\":147696278200445,\"label\":\"U-导出登录日志数据\"},{\"id\":147696278200446,\"label\":\"U-删除登录日志数据\"},{\"id\":147696278200447,\"label\":\"通知公告\"},{\"id\":147696278200448,\"label\":\"消息公告\"},{\"id\":147696278204486,\"label\":\"U-获取消息通知的列表\"},{\"id\":147696278204487,\"label\":\"U-添加消息通知数据\"},{\"id\":147696278204488,\"label\":\"U-批量删除消息通知\"},{\"id\":147696278204489,\"label\":\"U-部分更新消息通知信息\"},{\"id\":147696278204490,\"label\":\"U-删除消息通知数据\"},{\"id\":147696278204491,\"label\":\"U-修改消息通知状态\"},{\"id\":147696278204492,\"label\":\"已读消息\"},{\"id\":147696278204493,\"label\":\"U-获取已读消息公告的列表\"},{\"id\":147696278204494,\"label\":\"U-批量删除已读消息公告\"},{\"id\":147696278204495,\"label\":\"U-修改已读消息公告状态\"},{\"id\":147696278204496,\"label\":\"U-删除已读消息公告数据\"},{\"id\":147696278204497,\"label\":\"文件管理\"},{\"id\":147696278204498,\"label\":\"U-获取文件的列表\"},{\"id\":147696278204499,\"label\":\"定时任务\"},{\"id\":147696278204500,\"label\":\"U-操作celery 定时任务\"},{\"id\":147696278204501,\"label\":\"U-获取celery 定时任务\"},{\"id\":147696278204502,\"label\":\"数据查询\"},{\"id\":147696278204503,\"label\":\"U-获取角色搜索的列表\"},{\"id\":147696278204504,\"label\":\"U-获取菜单搜索的列表\"},{\"id\":147696278204505,\"label\":\"U-获取部门搜索的列表\"},{\"id\":147696278204506,\"label\":\"U-获取用户搜索的列表\"},{\"id\":147696278204507,\"label\":\"个人中心\"},{\"id\":147696278204508,\"label\":\"U-用户登录日志\"},{\"id\":147696278204509,\"label\":\"U-部分更新个人信息\"},{\"id\":147696278204510,\"label\":\"U-上传个人头像\"},{\"id\":147696278204511,\"label\":\"U-获取消息通知后端\"},{\"id\":147696278204512,\"label\":\"U-修改个人密码\"},{\"id\":147696278204513,\"label\":\"U-获取用户消息订阅列表\"},{\"id\":147696278204514,\"label\":\"U-部分更新用户消息订阅信息\"},{\"id\":147696278204515,\"label\":\"消息中心\"},{\"id\":147696278204516,\"label\":\"U-用户消息中心\"},{\"id\":147696278204517,\"label\":\"U-全部已读消息\"},{\"id\":147696278204518,\"label\":\"U-批量已读消息\"},{\"id\":147696278204519,\"label\":\"U-用户未读消息\"},{\"id\":147696278204520,\"label\":\"聊天室\"},{\"id\":147696278204521,\"label\":\"接口文档\"},{\"id\":147696278204522,\"label\":\"U-获取API的文档模式\"},{\"id\":147696278204523,\"label\":\"U-SpectacularRedocView\"},{\"id\":147696278204524,\"label\":\"U-SpectacularSwaggerView\"},{\"id\":147696278204525,\"label\":\"关于\"}]",
+        "exclude": false
+      },
+      {
+        "type": "value.all",
+        "field": "id",
+        "match": "eq",
+        "table": "system.fieldpermission",
+        "value": "",
+        "exclude": false
+      }
+    ],
+    "is_active": true,
+    "creator_id": 1,
+    "modifier_id": 1,
+    "dept_belong_id": null
+  },
+  {
+    "id": 147696278204528,
+    "mode_type": 0,
+    "created_time": "2024-06-08T14:39:23",
+    "updated_time": "2024-11-01T06:53:56",
+    "description": null,
+    "name": "测试部门只读权限",
+    "rules": [
+      {
+        "type": "value.table.dept.ids",
+        "field": "id",
+        "match": "in",
+        "table": "system.dept",
+        "value": "[{\"id\":147696278204526,\"label\":\"测试部门\"}]",
+        "exclude": false
+      }
+    ],
+    "is_active": true,
+    "creator_id": 1,
+    "modifier_id": 1,
+    "dept_belong_id": null
+  },
+  {
+    "id": 147696278204529,
+    "mode_type": 0,
+    "created_time": "2024-07-19T05:56:34",
+    "updated_time": "2024-11-01T06:54:21",
+    "description": null,
+    "name": "数据查询本人数据",
+    "rules": [
+      {
+        "type": "value.user.id",
+        "field": "id",
+        "match": "eq",
+        "table": "system.user",
+        "value": "",
+        "exclude": false
+      }
+    ],
+    "is_active": true,
+    "creator_id": 1,
+    "modifier_id": 1,
+    "dept_belong_id": null
+  },
+  {
+    "id": 147696278204530,
+    "mode_type": 0,
+    "created_time": "2023-12-24T06:52:26",
+    "updated_time": "2024-11-01T06:51:30",
+    "description": "仅本人数据",
+    "name": "仅本人数据",
+    "rules": [
+      {
+        "type": "value.user.id",
+        "field": "owner",
+        "match": "eq",
+        "table": "system.userconfig",
+        "value": "",
+        "exclude": false
+      },
+      {
+        "type": "value.user.id",
+        "field": "creator",
+        "match": "eq",
+        "table": "system.operationlog",
+        "value": "",
+        "exclude": false
+      },
+      {
+        "type": "value.user.id",
+        "field": "creator",
+        "match": "eq",
+        "table": "system.loginlog",
+        "value": "",
+        "exclude": false
+      },
+      {
+        "type": "value.user.id",
+        "field": "user",
+        "match": "eq",
+        "table": "notifications.usermsgsubscription",
+        "value": "",
+        "exclude": false
+      },
+      {
+        "type": "value.user.id",
+        "field": "owner",
+        "match": "eq",
+        "table": "notifications.noticeuserread",
+        "value": "",
+        "exclude": false
+      }
+    ],
+    "is_active": true,
+    "creator_id": 1,
+    "modifier_id": 1,
+    "dept_belong_id": null
+  },
+  {
+    "id": 147696278204531,
+    "mode_type": 0,
+    "created_time": "2024-01-23T07:30:17",
+    "updated_time": "2024-11-01T06:53:33",
+    "description": "",
+    "name": "仅查询数据",
+    "rules": [
+      {
+        "type": "value.all",
+        "field": "id",
+        "match": "eq",
+        "table": "system.systemconfig",
+        "value": "",
+        "exclude": false
+      },
+      {
+        "type": "value.all",
+        "field": "id",
+        "match": "eq",
+        "table": "system.datapermission",
+        "value": "",
+        "exclude": false
+      },
+      {
+        "type": "value.all",
+        "field": "id",
+        "match": "eq",
+        "table": "system.modelfield",
+        "value": "",
+        "exclude": false
+      },
+      {
+        "type": "value.all",
+        "field": "id",
+        "match": "eq",
+        "table": "system.attachment",
+        "value": "",
+        "exclude": false
+      }
+    ],
+    "is_active": true,
+    "creator_id": 1,
+    "modifier_id": 1,
+    "dept_belong_id": null
+  },
+  {
+    "id": 147696278204532,
+    "mode_type": 1,
+    "created_time": "2023-12-24T06:11:34",
+    "updated_time": "2024-11-01T06:49:38",
+    "description": "仅本部门下的本人数据",
+    "name": "仅本部门下的本人数据",
+    "rules": [
+      {
+        "type": "value.user.id",
+        "field": "creator",
+        "match": "eq",
+        "table": "*",
+        "value": "",
+        "exclude": false
+      },
+      {
+        "type": "value.user.dept.id",
+        "field": "dept_belong",
+        "match": "eq",
+        "table": "*",
+        "value": "",
+        "exclude": false
+      }
+    ],
+    "is_active": true,
+    "creator_id": 1,
+    "modifier_id": 1,
+    "dept_belong_id": null
+  },
+  {
+    "id": 147696278204533,
+    "mode_type": 0,
+    "created_time": "2023-12-24T06:09:48",
+    "updated_time": "2024-11-01T06:49:15",
+    "description": "全部数据",
+    "name": "全部数据",
+    "rules": [
+      {
+        "type": "value.all",
+        "field": "*",
+        "match": "*",
+        "table": "*",
+        "value": "*",
+        "exclude": false
+      }
+    ],
+    "is_active": true,
+    "creator_id": 1,
+    "modifier_id": 1,
+    "dept_belong_id": null
+  },
+  {
+    "id": 147696278204534,
+    "mode_type": 0,
+    "created_time": "2024-06-08T14:51:41",
+    "updated_time": "2024-11-01T06:54:13",
+    "description": null,
+    "name": "本部门只读权限",
+    "rules": [
+      {
+        "type": "value.user.dept.id",
+        "field": "dept_belong",
+        "match": "eq",
+        "table": "*",
+        "value": "",
+        "exclude": false
+      },
+      {
+        "type": "value.user.dept.id",
+        "field": "dept",
+        "match": "eq",
+        "table": "system.user",
+        "value": "",
+        "exclude": false
+      }
+    ],
+    "is_active": true,
+    "creator_id": 1,
+    "modifier_id": 1,
+    "dept_belong_id": null
+  },
+  {
+    "id": 147696278204535,
+    "mode_type": 0,
+    "created_time": "2023-12-24T06:12:40",
+    "updated_time": "2024-11-01T06:49:46",
+    "description": "本部门及以下数据",
+    "name": "本部门及以下数据",
+    "rules": [
+      {
+        "type": "value.user.dept.ids",
+        "field": "dept_belong",
+        "match": "in",
+        "table": "*",
+        "value": "",
+        "exclude": false
+      }
+    ],
+    "is_active": true,
+    "creator_id": 1,
+    "modifier_id": 1,
+    "dept_belong_id": null
+  },
+  {
+    "id": 147696278204536,
+    "mode_type": 0,
+    "created_time": "2023-12-24T06:13:13",
+    "updated_time": "2024-11-01T06:49:55",
+    "description": "本部门数据",
+    "name": "本部门数据",
+    "rules": [
+      {
+        "type": "value.user.dept.id",
+        "field": "dept_belong",
+        "match": "eq",
+        "table": "*",
+        "value": "",
+        "exclude": false
+      },
+      {
+        "type": "value.user.dept.id",
+        "field": "dept",
+        "match": "eq",
+        "table": "system.user",
+        "value": "",
+        "exclude": false
+      }
+    ],
+    "is_active": true,
+    "creator_id": 1,
+    "modifier_id": 1,
+    "dept_belong_id": null
+  }
+]

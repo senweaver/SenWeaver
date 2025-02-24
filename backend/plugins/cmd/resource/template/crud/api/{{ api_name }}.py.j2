@@ -1,0 +1,38 @@
+from fastapi import APIRouter, Request, Depends
+from ..model.{{model_file_name}} import {{model_name}},{{model_name}}Create,{{model_name}}Update,{{model_name}}Read
+from senweaver import senweaver_router
+from senweaver.core.helper import SenweaverFilter
+from pathlib import Path as FilePath
+from ..logic.{{logic_name}}_logic import {{logic_class_name}}Logic
+from ..{{ module_name }} import module
+
+path = FilePath(__file__)
+
+router = APIRouter(tags=["{{table_name}}"], route_class=module.route_class)
+filter_config = SenweaverFilter(
+    #例: {"id": None,...}
+    filters={},
+    backend_filters={},
+    fields=['id', 'created_time'],
+    table_fields=[ 'created_time'],
+    ordering_fields=[ "created_time"],
+    extra_kwargs={},
+    relationships=[], 
+    extra_fields=[]
+)
+
+_router = senweaver_router(
+    module=module,
+    model={{model_name}},
+    filter_config=filter_config,
+    path=f"/{path.stem}",    
+    tags=["{{table_name}}"],
+    custom_router={{logic_class_name}}Logic.add_custom_router
+)
+"""
+推荐使用custom_router={{logic_class_name}}Logic.add_custom_router的方式添加自定义路由
+如果有其他特殊的自定义路由，注意前面用_router
+@_router.post("/{{ api_name }}/other", summary="other")
+@requires_permissions(f"{module.get_path_auth_str("/{{ api_name }}/other", "other")}")
+"""
+router.include_router(_router)

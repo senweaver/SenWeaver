@@ -1,0 +1,11 @@
+name: notifications
+version: 1.0.0
+title: notifications
+description: notifications app
+author: senweaver
+enabled: true
+homepage: https://www.senweaver.com
+url: /notifications/web
+option:
+  param1: value1
+  param2: value2

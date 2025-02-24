@@ -1,0 +1,14 @@
+{
+    // 保存时自动格式化（Black）
+    "editor.formatOnSave": true,
+    // 指定 Python 格式化工具为 Black
+    "python.formatting.provider": "black",
+    // 保存时自动整理 imports（isort）
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    },
+    // 配置 isort 兼容 Black
+    "python.sortImports.args": ["--profile", "black"],
+    // 确保使用当前项目的虚拟环境
+    "python.terminal.activateEnvironment": true
+}

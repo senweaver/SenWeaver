@@ -1,0 +1,67 @@
+[tool.poetry]
+name = "SenWeaver"
+version = "0.1.0"
+description = "SenWeaver framework, high performance, easy to learn, fast to code, ready for production"
+authors = ["senweaver"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/senweaver/SenWeaver"
+repository = "https://github.com/senweaver/SenWeaver"
+keywords = ["fastapi", "sqlmodel", "alembic", "sqlalchemy"]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+alembic = "^1.13.2"
+aiosqlite = "^0.20.0"
+asyncmy = "^0.2.9"
+asyncpg = "^0.29.0"
+fastapi = {extras = ["all"], version = "^0.115.0"}
+fastapi-cache2 = "^0.2.1"
+fastapi-limiter = "^0.1.6"
+loguru = "^0.7.2"
+redis = {extras = ["hiredis"], version = "^5.0.3"}
+SQLAlchemy-Utils = "^0.41.2"
+SQLAlchemy = "^2.0.29"
+sqlmodel = "^0.0.22"
+typer = "^0.12.5"
+user-agents = "^2.2.0"
+fast-captcha = "^0.3.2"
+fastcrud = "^0.15.6"
+fastapi-offline = "^1.7.1"
+pyjwt = {extras = ["crypto"], version = "^2.8.0"}
+pwdlib = {extras = ["argon2", "bcrypt"], version = "^0.2.0"}
+jinja2 = "^3.1.4"
+inflect = "^7.3.1"
+pyyaml = "^6.0.1"
+websockets = "^13.1"
+openpyxl = "^3.1.5"
+pandas = "^2.2.3"
+xdbsearchip = "^1.0.2"
+pycryptodomex = "^3.21.0"
+
+
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.1.1"
+pytest-asyncio = "^0.23.6"
+black = "^25.1.0"
+isort = "^6.0.0"
+
+[[tool.poetry.source]]
+name = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple/"
+priority = "primary"
+
+[tool.black]
+target-version = [ "py310", "py311" ]
+exclude = "((.eggs | .git | .pytest_cache | build | dist))"
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
