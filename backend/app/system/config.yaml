@@ -1,0 +1,11 @@
+name: system
+version: 1.0.0
+title: system
+description: system app
+author: senweaver
+enabled: true
+homepage: https://www.senweaver.com
+url: /system/web
+option:
+  param1: value1
+  param2: value2

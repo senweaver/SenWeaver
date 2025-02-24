@@ -1,0 +1,31 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "SenWeaver-Format-isort",  // 任务名称（必填）
+      "type": "shell",               // 任务类型（shell 或 process）
+      "command": "poetry run isort .",  // 执行的命令
+      "problemMatcher": [],          // 可选：错误匹配器
+      "options": {
+        "cwd": "${workspaceFolder}/backend"  // 关键配置：指定工作目录为项目根目录
+      },
+      "group": {
+        "kind": "build",            // 任务分组类型
+        "isDefault": true           // 设为默认任务
+      }
+    },
+    {
+      "label": "SenWeaver-Format-Black",
+      "type": "shell",
+      "command": "poetry run black .",
+      "problemMatcher": [],
+      "options": {
+        "cwd": "${workspaceFolder}/backend"  // 关键配置：指定工作目录为项目根目录
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}

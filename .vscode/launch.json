@@ -1,0 +1,128 @@
+{
+  // 使用 IntelliSense 了解相关属性。
+  // 悬停以查看现有属性的描述。
+  // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    
+    {
+      "name": "SenWeaver",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
+      "justMyCode": false,
+      "args": [
+        "senweaver.server:create_app",
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "8010",
+        "--reload"
+      ],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/backend"
+    },
+    {
+      "name": "SenWeaver-CREATE-APP",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "main", // 这里是你的 Python 模块名或脚本路径
+      "args": ["create", "app", "-n", "test"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/backend"
+    },
+    {
+      "name": "SenWeaver-CREATE-PLUGIN",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "main", // 这里是你的 Python 模块名或脚本路径
+      "args": ["create", "plugin", "-n", "test"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/backend"
+    },
+    {
+      "name": "SenWeaver-CREATE-VENDOR",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "main", // 这里是你的 Python 模块名或脚本路径
+      "args": ["create", "vendor", "-n", "example"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/backend"
+    },
+    {
+      "name": "SenWeaver-CRUD",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "main", // 这里是你的 Python 模块名或脚本路径
+      "args": ["crud", "-t", "sys_dept", "-o", "app/test"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/backend"
+    },
+    {
+      "name": "SenWeaver-CREATESUPERUSER",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "main", // 这里是你的 Python 模块名或脚本路径
+      "args": ["createsuperuser"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/backend"
+    },
+    {
+      "name": "SenWeaver-DATA-INIT",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "main", // 这里是你的 Python 模块名或脚本路径
+      "args": ["data", "init", "-m", "system"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/backend"
+    },
+    {
+      "name": "SenWeaver-DATA-DUMP",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "main", // 这里是你的 Python 模块名或脚本路径
+      "args": ["data", "dump", "-m", "system"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/backend"
+    },
+    {
+      "name": "SenWeaver-Alembic Revision --autogenerate",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "alembic",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/backend",
+      "args": ["revision", "--autogenerate"],
+      "justMyCode": false,
+      "env": {
+        "ALEMBIC_CONFIG": "${workspaceFolder}/backend/alembic.ini"
+      }
+    },
+    {
+      "name": "SenWeaver-Alembic Upgrade Head",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "alembic",
+      "args": ["upgrade", "head"],
+      "justMyCode": false,
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/backend",
+      "env": {
+        "ALEMBIC_CONFIG": "${workspaceFolder}/backend/alembic.ini"
+      }
+    },
+    {
+      "name": "SenWeaver-Alembic Upgrade Head --sql",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "alembic",
+      "args": ["upgrade", "head", "--sql", ">", "./alembic/sql/senweaver.sql"],
+      "justMyCode": false,
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/backend",
+      "env": {
+        "ALEMBIC_CONFIG": "${workspaceFolder}/backend/alembic.ini"
+      }
+    }
+  ]
+}

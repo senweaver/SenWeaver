@@ -1,0 +1,62 @@
+[
+  {
+    "id": 8,
+    "dept_id": 147696278204526,
+    "datapermission_id": 147696278204527
+  },
+  {
+    "id": 10,
+    "dept_id": 147696278204526,
+    "datapermission_id": 147696278204530
+  },
+  {
+    "id": 7,
+    "dept_id": 147696278204526,
+    "datapermission_id": 147696278204531
+  },
+  {
+    "id": 9,
+    "dept_id": 147696278204526,
+    "datapermission_id": 147696278204534
+  },
+  {
+    "id": 1,
+    "dept_id": 147696278216774,
+    "datapermission_id": 147696278204533
+  },
+  {
+    "id": 3,
+    "dept_id": 147696278216775,
+    "datapermission_id": 147696278204527
+  },
+  {
+    "id": 5,
+    "dept_id": 147696278216775,
+    "datapermission_id": 147696278204529
+  },
+  {
+    "id": 2,
+    "dept_id": 147696278216775,
+    "datapermission_id": 147696278204530
+  },
+  {
+    "id": 6,
+    "dept_id": 147696278216775,
+    "datapermission_id": 147696278204531
+  },
+  {
+    "id": 4,
+    "dept_id": 147696278216775,
+    "datapermission_id": 147696278204534
+  },
+  {
+    "id": 11,
+    "dept_id": 147696278216776,
+    "datapermission_id": 147696278204530
+  },
+  {
+    "id": 12,
+    "dept_id": 147696278216776,
+    "datapermission_id": 147696278204536
+  }
+]

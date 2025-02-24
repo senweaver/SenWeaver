@@ -1,0 +1,11 @@
+name: settings
+version: 1.0.0
+title: settings
+description: settings app
+author: senweaver
+enabled: true
+homepage: https://www.senweaver.com
+url: /settings/web
+option:
+  param1: value1
+  param2: value2

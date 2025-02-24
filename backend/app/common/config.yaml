@@ -1,0 +1,11 @@
+name: common
+version: 1.0.0
+title: common
+description: common app
+author: senweaver
+enabled: true
+homepage: https://www.senweaver.com
+url: /common/web
+option:
+  param1: value1
+  param2: value2

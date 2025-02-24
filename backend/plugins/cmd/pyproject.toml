@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "gen"
+version = "0.1.0"
+description = ""
+authors = ["cjl <cjl@senweaver.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[[tool.poetry.source]]
+name = "tsinghua"
+url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/"
+priority = "primary"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
