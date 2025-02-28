@@ -17,4 +17,5 @@ class AccessMiddleware(BaseHTTPMiddleware):
             and (request.method, path) not in settings.DEMO_MODE_WHITE_ROUTES
         ):
             raise ForbiddenException("演示环境，禁止操作")
+
         return await call_next(request)

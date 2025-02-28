@@ -20,7 +20,6 @@ def register_exception(app: FastAPI):
 
     @app.exception_handler(BaseCustomException)
     async def custom_exception_handler(request: Request, exc: BaseCustomException):
-        logger.exception(exc)
         if isinstance(exec, CustomException):
             content = get_error_response(code=exc.code, detail=exc.detail)
         else:
@@ -57,7 +56,7 @@ def register_exception(app: FastAPI):
 
     @app.exception_handler(ValueError)
     async def value_exception_handler(request: Request, exc: ValueError):
-        logger.exception(exc)
+        settings.ENVIRONMENT == EnvironmentEnum.PRODUCTION or logger.exception(exc)
         content = get_error_response(
             code=status.HTTP_400_BAD_REQUEST, detail=exc.__str__()
         )
@@ -68,7 +67,9 @@ def register_exception(app: FastAPI):
 
     @app.exception_handler(SQLAlchemyError)
     async def sqlalchemy_exception_handler(request: Request, exc: SQLAlchemyError):
-        logger.error(f"数据库错误: {exc}")
+        settings.ENVIRONMENT == EnvironmentEnum.PRODUCTION or logger.error(
+            f"数据库错误: {exc}"
+        )
         content = get_error_response(
             code=status.HTTP_400_BAD_REQUEST,
             detail=(
@@ -84,20 +85,23 @@ def register_exception(app: FastAPI):
 
     @app.exception_handler(Exception)
     async def all_exception_handler(request: Request, exc: Exception):
-        logger.exception(exc)
-        code = status.HTTP_500_INTERNAL_SERVER_ERROR
         if isinstance(exc, CustomException):
-            code = exc.code
+            content = get_error_response(code=exc.code, detail=exc.detail)
         elif isinstance(exc, BaseCustomException):
-            code = exc.status_code
-        content = get_error_response(
-            code=code,
-            detail=(
-                "服务器开小差啦,请稍后重试"
-                if settings.ENVIRONMENT == EnvironmentEnum.PRODUCTION
-                else str(exc)
-            ),
-        )
+            content = get_error_response(
+                code=exc.status_code,
+                detail=exc.detail,
+            )
+        else:
+            logger.exception(exc)
+            content = get_error_response(
+                code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=(
+                    "服务器开小差啦,请稍后重试"
+                    if settings.ENVIRONMENT == EnvironmentEnum.PRODUCTION
+                    else str(exc)
+                ),
+            )
         return ORJSONResponse(
             content=content, status_code=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
