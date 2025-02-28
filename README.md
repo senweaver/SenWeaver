@@ -1,97 +1,122 @@
-# SenWeaver
-<b>SenWeaver</b>是基于FastAPI+SQLModel+PydanticV2等技术栈构建
-> 提供强大的异步CRUD操作和灵活的端点创建工具，通过诸如自动检测连接条件、动态排序以及偏移量和游标分页等高级功能进行优化。
-提供强大的细粒度权限管理，允许对不同级别的资源进行精确访问控制。这包括行级和字段级的数据权限管理，确保每个用户只能访问授权的数据部分。
+<p align="center">
+  <a href="https://www.senweaver.com" target="_blank">
+    <img width="200" src="https://www.senweaver.com/img/senweaver-logo.png" alt="SenWeaver Enterprise Framework">
+  </a>
+</p>
 
-## 在线预览
+<h3 align="center">SenWeaver - 企业级快速开发框架</h3>
 
-[http://demo.senweaver.com/](http://demo.senweaver.com/)
-账号密码：admin/senweaver123
+<p align="center">
+ <a href="https://github.com/senweaver/SenWeaver">
+    <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/senweaver/SenWeaver?style=flat-square&logo=github">
+  </a>
+  <a href="https://gitee.com/senweaver/SenWeaver">
+    <img alt="Gitee Repo stars" src="https://gitee.com/senweaver/SenWeaver/badge/star.svg?theme=flat">
+  </a>
+   <img alt="MIT License" src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square">
+  <a href="https://demo.senweaver.com/">
+    <img alt="Online Demo" src="https://img.shields.io/badge/demo-online-brightgreen?style=flat-square">
+  </a>
+</p>
 
+---
 
-## 系统功能
+## 🚀 核心特性
 
-- 用户管理：支持创建、编辑和删除用户，同时可以为每个用户分配不同的角色
-- 部门管理：支持多层级的组织结构配置（如公司、部门、小组等），方便管理和维护复杂的组织架构
-- 菜单管理：灵活定义系统的导航菜单，包括一级菜单、二级菜单及其子项。
-- 角色管理：为不同角色配置可访问的菜单和页面，实现基于角色的访问控制。
-- 权限管理：数据权限（行权限和字段权限）
-- 代码生成：后端代码自动生成：支持从模型自动生成 API 接口代码
-- 模块系统：支持应用、插件、组件等动态加载
-- 操作日志：详细记录所有正常和异常的操作行为，便于审计和问题排查
-- 登录日志：记录用户每次登录的时间、IP 地址等信息，区分正常和异常登录尝试
-- 接口文档：自动生成在线交互式 API 文档
-- 通知公告：所有用户或特定用户组发布重要通知和公告
-- 文件管理: 支持文件的上传、下载和管理，确保文件的安全性和完整性
-- 
+**SenWeaver** 是基于现代Python技术栈构建的企业级开发框架，采用 **FastAPI** + **SQLModel** + **Pydantic V2** 架构，具备以下核心优势：
 
-# 快速CRUD实现
+- **智能ORM扩展**  
+  动态条件检测、复合排序支持、双模式分页（偏移量/游标）优化数据操作效率
 
-> 本平台通过在 API 层编写少量代码，即可实现全面的前端功能自动生成，包括一对一、一对多、多对多关系的数据展示，搜索列配置，列表页生成，功能权限与数据权限管理，API 接口文档自动生成，以及完整的 CRUD 操作支持。该平台不仅显著提高了开发效率，还确保了系统的灵活性、安全性和可维护性。
+- **细粒度权限控制**  
+  支持行级数据权限、字段级访问控制、RBAC权限模型的多维度安全体系
+
+- **模块化架构设计**  
+  支持应用/插件/组件的动态加载机制，实现业务功能解耦与复用
+
+- **自动化开发工具链**  
+  提供从模型定义到API接口、前端组件的全流程代码生成能力
+
+---
+
+## 📚 文档资源
+
+- [官方文档](https://www.senweaver.com/) - 完整开发指南与API参考
+- [在线演示](https://demo.senweaver.com/)  
+  _测试账号: admin / senweaver123_
+
+---
+
+## 🛠️ 功能矩阵
+
+### 系统管理
+- **组织架构**：多层级部门管理（公司-部门-小组）
+- **用户管理**：支持创建、编辑和删除用户，同时可以为每个用户分配不同的角色
+- **菜单管理**：灵活定义系统的导航菜单，包括一级菜单、二级菜单及其子项。
+- **角色管理**：为不同角色配置可访问的菜单和页面，实现基于角色的访问控制。
+- **权限管理**：功能权限+数据权限（行权限和字段权限）
+- **日志审计**：完整操作日志追踪与登录行为分析
+
+### 开发支持
+- **代码生成器**：模型驱动开发（MDD），自动生成CRUD接口
+- **API文档**：自动生成OpenAPI 3.0规范文档
+- **模块系统**：支持热插拔式插件开发
+
+### 业务功能
+- **文件管理**：安全文件存储与权限验证系统
+- **消息中心**：多通道通知系统
+- **命令管理**：命令行控制工具
+- ...
+
+---
+
+## ⚡ 极速CRUD实现
+
+通过声明式配置快速构建完整业务模块：
 
 ```python
-from senweaver.core.helper import FieldConfig
-from typing import List, Union
-from senweaver.core.helper import SenweaverFilter, RelationConfig
-from senweaver import senweaver_router
-from fastapi import APIRouter, Request
-from senweaver.utils.response import ResponseBase, success_response
-from ..example import module
-from ..model.example import Example, ExampleRead
-from ..logic.notice_logic import ExampleLogic
-router = APIRouter(tags=["example"])
+from senweaver.core import (
+    SenWeaverFilter,
+    RelationConfig,
+    FieldConfig,
+    senweaver_router
+)
+from fastapi import APIRouter
+from ..model.example import Example
 
-filter_config = SenweaverFilter(
-    # 查询过滤条件
-    filters={"id": None, "title__contains": None, "message__contains": None,
-             "notice_type": None, "level": None, "publish": None},
-    # 显示的字段
-    fields=['id', 'title', 'level', "publish", 'notice_type', "notice_user", 'notice_dept', 'notice_role',
-                  'message', "created_time", "user_count", "read_user_count", 'extra_json', "files"],
-    # 列表展示字段
-    table_fields=['id', 'title', 'notice_type',
-                  "read_user_count", "publish", "created_time"],
-    # 字段扩展配置
-    extra_kwargs={
-        'extra_json': {'read_only': True},
-    },
-    # 可排序字段
-    ordering_fields=['updated_time', 'created_time'],
-    # 关系字段
+# 定义数据过滤器配置
+filter_config = SenWeaverFilter(
+    filters={"title__contains": None, "level": None},
+    table_fields=['id', 'title', 'notice_type', 'created_time'],
+    ordering_fields=['-created_time'],
     relationships=[
-        RelationConfig(rel=Example.notice_user, attrs=[
-                       'id', 'username'], format="{username}", many=True, label="被通知用户", read_only=False, required=True, write_only=False, input_type="api-search-user", callbacks={"select": ExampleLogic.get_notice_user}),
         RelationConfig(
-            rel=Example.notice_dept, attrs=[
-                'id', 'name'], format="{name}", label="被通知部门", many=True, input_type='api-search-dept'),
-        RelationConfig(
-            rel=Example.notice_role, attrs=[
-                'id', 'name'], format="{name}", label="被通知角色", many=True, read_only=False, input_type='api-search-role')
+            rel=Example.notice_user,
+            attrs=['id', 'username'],
+            input_type="api-search-user",
+            label="通知用户"
+        )
     ],
-    # 扩展字段信息
     extra_fields=[
-        FieldConfig(key="files", default=[], annotation=list, write_only=True,
-                    label="上传的附件", input_type="json"),
-        FieldConfig(key="user_count", default=0, label="用户数量", read_only=True,
-                    annotation=int, input_type="field", callbacks={"select": ExampleLogic.get_user_count}),
-        FieldConfig(key="read_user_count", default=0, annotation=int, read_only=True,
-                    label="已读用户数量", input_type="field", callbacks={"select": ExampleLogic.get_read_user_count})
-    ],
+        FieldConfig(
+            key="user_count",
+            annotation=int,
+            label="用户统计",
+            callbacks={"select": ExampleLogic.get_user_count}
+        )
+    ]
 )
-# 动态创建crud、导入导出等相关路由
-_router = senweaver_router(
-    module=module,
+
+# 自动生成CRUD路由
+router = senweaver_router(
     model=Example,
-    path=f"/example",
+    path="/examples",
     filter_config=filter_config,
-    callbacks={"save": ExampleLogic.save},
-    custom_router=ExampleLogic.add_custom_router
+    callbacks={"save": ExampleLogic.custom_save}
 )
-router.include_router(_router)
 ```
 
-
-## 启示与参考
+## 鸣谢
 
 - [fastcrud](https://github.com/igorbenav/fastcrud).
 - [full-stack-fastapi-template](https://github.com/fastapi/full-stack-fastapi-template).
@@ -101,3 +126,22 @@ router.include_router(_router)
 - [fastapi](https://github.com/fastapi/fastapi).
 - [sqlmodel](https://github.com/fastapi/sqlmodel).
 - [pydantic](https://github.com/pydantic/pydantic).
+
+## 联系我们
+
+关注我们的微信公众号或加入我们的交流群：
+
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="middle" style="width:50%">
+        <img src="https://www.senweaver.com/img/qrcode/wxq.png" class="no-zoom" style="width:120px;margin: 10px">
+        <p>SenWeaver微信群(添加微信备注"进群")</p>
+      </td>
+      <td align="center" valign="middle"  style="width:50%">
+        <img src="https://www.senweaver.com/img/qrcode/gzh.jpg" alt="微信号: senweaver" class="no-zoom" style="width:120px;margin: 10px;">
+        <p>SenWeaver微信公众号</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
