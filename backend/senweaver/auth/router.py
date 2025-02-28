@@ -104,6 +104,29 @@ class AuthRouter:
                 None, description="Select a category"
             ),
         ) -> ResponseBase:
+            if category == "reset":
+                data = {
+                    "access": False,
+                    "captcha": True,
+                    "token": True,
+                    "encrypted": False,
+                    "email": True,
+                    "sms": False,
+                    "rate": 60,
+                    "password": [{"key": "SECURITY_PASSWORD_MIN_LENGTH", "value": 6}],
+                }
+            if category == "register":
+                data = {
+                    "access": False,
+                    "captcha": True,
+                    "token": True,
+                    "encrypted": True,
+                    "email": True,
+                    "sms": False,
+                    "rate": 60,
+                    "basic": True,
+                    "password": [{"key": "SECURITY_PASSWORD_MIN_LENGTH", "value": 6}],
+                }
             if category == "login":
                 data = {
                     "access": True,
@@ -394,7 +417,7 @@ class AuthRouter:
             description=f"获取临时token",
         )
         self.router.add_api_route(
-            f"{self.router_prefix}/verify",
+            "/system/auth/verify",
             self.auth_get_verify(),
             summary="获取verify",
             methods=["GET"],

@@ -5,7 +5,7 @@ from typing import Any
 import typer
 import uvicorn
 from config.settings import EnvironmentEnum, settings
-from fastapi import Depends, FastAPI
+from fastapi import Depends, FastAPI, applications
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.docs import (
     get_redoc_html,
@@ -79,6 +79,7 @@ def create_app(*args: Any, **kwargs: Any):
     )
     module_manager.start(app)
     # swagger offline
+
     if settings.UPLOAD_PATH.exists():
         static_file_path = settings.UPLOAD_PATH.as_posix()
         app.mount(

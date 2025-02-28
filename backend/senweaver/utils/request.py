@@ -46,7 +46,7 @@ def parse_user_agent(request: Request) -> tuple[str, str, str, str]:
     device = user_agent.get_device()
     os = user_agent.get_os()
     browser = user_agent.get_browser()
-    return user_agent_string, device, os, browser
+    return user_agent_string[:128], device, os, browser
 
 
 async def parse_ip_info(request: Request) -> tuple[str, str, str, str]:

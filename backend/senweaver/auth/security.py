@@ -213,7 +213,7 @@ def requires_user(
         scope_type="user",
         check_data_scope=check_data_scope,
         check_field_scope=check_field_scope,
-        err_msg="Please login first",
+        err_msg="请先登录",
         redirect=redirect,
     )
 
@@ -275,7 +275,7 @@ def requires_guest(
 
 async def get_current_user(request: Request = Request, _: str = Depends(oauth2_scheme)):
     if request.user is None:
-        raise PermissionException("Please login first")
+        raise PermissionException("请先登录")
     return request.user
 
 
