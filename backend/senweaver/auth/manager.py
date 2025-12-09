@@ -1,13 +1,13 @@
 from pathlib import Path
 from typing import Generic, Optional
 
+from config.settings import settings
 from fastapi import FastAPI, Request
 from fastapi.security.utils import get_authorization_scheme_param
 from starlette.authentication import AuthenticationBackend
 from starlette.middleware.authentication import AuthenticationMiddleware
 from starlette.requests import HTTPConnection
 
-from config.settings import settings
 from senweaver.auth import models
 from senweaver.auth.auth import Auth
 from senweaver.auth.helper import AuthManagerProtocol
@@ -35,13 +35,10 @@ class AuthManager(
 
     def start(self, app: FastAPI):
         self.app = app
-        self.on_before_start()
         self.app.add_middleware(AuthenticationMiddleware, backend=self)
         self.auth_router.add_routes()
         self.app.include_router(self.auth_router.router)
-        self.run()
         self.ready = True
-        self.on_after_start()
 
     async def create_superuser(self, username: str, password: str, email: str):
         pass
