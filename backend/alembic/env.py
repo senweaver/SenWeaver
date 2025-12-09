@@ -3,15 +3,16 @@ import pathlib
 import sys
 from logging.config import fileConfig
 
-from sqlalchemy import MetaData, create_engine
+from alembic import context
+from senweaver.module.helper import get_all_models
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.sql.schema import Index
 from sqlmodel import SQLModel
 
-from alembic import context
-from app.system.model import *
-from plugins.notifications.model import *
-from plugins.settings.model import *
+data_models = get_all_models().items()
+for class_name, cls in data_models:
+    if class_name not in globals():
+        globals()[class_name] = cls
 
 sys.path.append(str(pathlib.Path(__file__).resolve().parents[1]))
 
