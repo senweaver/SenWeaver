@@ -1,16 +1,26 @@
+import sys
+import time
+
 import typer
 
-from senweaver.server import run_app, start_command
+app = typer.Typer()
+start_time = time.time()
 
-cli_app = typer.Typer()
 
-
-@cli_app.command(help="Run the FastAPI app")
+@app.command()
 def run():
-    typer.echo("This is the default command.")
+    """Run the FastAPI application."""
+    from senweaver.server import run_app
+
+    typer.echo("Starting SenWeaver application...")
     run_app()
 
 
 if __name__ == "__main__":
-    start_command(cli_app)
-    cli_app()
+    from senweaver.command import register_commands
+
+    register_commands(app)
+    if len(sys.argv) == 1:
+        # 如果没有参数，默认执行 run 命令
+        sys.argv.append("run")
+    app()
