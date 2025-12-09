@@ -1,6 +1,6 @@
 <p align="center">
-  <a href="https://www.senweaver.com" target="_blank">
-    <img width="200" src="https://www.senweaver.com/img/senweaver-logo.png" alt="SenWeaver Enterprise Framework">
+  <a href="https://docs.senweaver.com" target="_blank">
+    <img width="200" src="assets/senweaver.png" alt="SenWeaver Enterprise Framework">    
   </a>
 </p>
 
@@ -41,7 +41,7 @@
 
 ## 📚 文档资源
 
-- [官方文档](https://www.senweaver.com/) - 完整开发指南与API参考
+- [官方文档](https://docs.senweaver.com/) - 完整开发指南与API参考
 - [在线演示](https://demo.senweaver.com/)  
   _测试账号: admin / senweaver123_
 
@@ -135,11 +135,11 @@ router = senweaver_router(
   <tbody>
     <tr>
       <td align="center" valign="middle" style="width:50%">
-        <img src="https://www.senweaver.com/img/qrcode/wxq.png" class="no-zoom" style="width:120px;margin: 10px">
+        <img src="https://docs.senweaver.com/img/qrcode/wxq.png" class="no-zoom" style="width:120px;margin: 10px">
         <p>SenWeaver微信群(添加微信备注"进群")</p>
       </td>
       <td align="center" valign="middle"  style="width:50%">
-        <img src="https://www.senweaver.com/img/qrcode/gzh.jpg" alt="微信号: senweaver" class="no-zoom" style="width:120px;margin: 10px;">
+        <img src="https://docs.senweaver.com/img/qrcode/gzh.jpg" alt="微信号: senweaver" class="no-zoom" style="width:120px;margin: 10px;">
         <p>SenWeaver微信公众号</p>
       </td>
     </tr>
