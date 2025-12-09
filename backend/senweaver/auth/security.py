@@ -275,7 +275,7 @@ def requires_guest(
 
 async def get_current_user(request: Request = Request, _: str = Depends(oauth2_scheme)):
     if request.user is None:
-        raise PermissionException("请先登录")
+        raise UnauthorizedException("请先登录")
     return request.user
 
 
@@ -311,7 +311,6 @@ def get_permission_list(app: FastAPI):
 
 
 class Authorizer:
-
     def __init__(
         self,
         permissions: str | typing.Sequence[str] = None,
@@ -322,7 +321,9 @@ class Authorizer:
         self.permissions = (
             [permissions]
             if isinstance(permissions, str)
-            else list(permissions) if permissions else None
+            else list(permissions)
+            if permissions
+            else None
         )
         self.roles = (
             [roles] if isinstance(roles, str) else list(roles) if roles else None
