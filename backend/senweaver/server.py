@@ -5,19 +5,16 @@ from typing import Any
 import typer
 import uvicorn
 from config.settings import EnvironmentEnum, settings
-from fastapi import Depends, FastAPI, applications
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.openapi.docs import (
-    get_redoc_html,
-    get_swagger_ui_html,
-    get_swagger_ui_oauth2_redirect_html,
-)
 from fastapi.responses import ORJSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 from fastapi_limiter import FastAPILimiter
 from fastapi_offline import FastAPIOffline
+from sqlalchemy.pool import AsyncAdaptedQueuePool, NullPool
+
 from senweaver.db.session import create_redis_pool
 from senweaver.exception.exception_handler import register_exception
 from senweaver.middleware.access import AccessMiddleware
@@ -25,7 +22,6 @@ from senweaver.middleware.db import SQLAlchemyMiddleware
 from senweaver.module.manager import module_manager
 from senweaver.utils.globals import GlobalsMiddleware, g
 from senweaver.utils.request import get_request_identifier
-from sqlalchemy.pool import AsyncAdaptedQueuePool, NullPool
 
 
 @asynccontextmanager
@@ -45,7 +41,7 @@ async def lifespan(app: FastAPI):
         prefix=f"{settings.NAME.lower()}-limiter",
         identifier=get_request_identifier,
     )
-
+    await module_manager.run()
     yield
     # shutdown
     await FastAPICache.clear()
@@ -85,7 +81,7 @@ def create_app(*args: Any, **kwargs: Any):
         app.mount(
             settings.UPLOAD_URL,
             StaticFiles(directory=static_file_path, html=True),
-            name=f"senweaver_uploads",
+            name="senweaver_uploads",
         )
 
     # middleware
@@ -104,30 +100,11 @@ def create_app(*args: Any, **kwargs: Any):
     # routes
     from app.app import startup as app_startup
     from plugins.plugins import startup as plugin_startup
-    from vendor.vendor import startup as vendor_startup
 
     app_startup(app)
     plugin_startup(app)
-    vendor_startup(app)
 
-    init_path()
-    module_manager.run()
     return app
-
-
-def init_path():
-    pass
-    # # 假设 settings.VENDOR_PATH 是你要使用的路径
-    # vendor_path = Path(settings.VENDOR_PATH)
-
-    # # 构建 pypi_path 并插入 sys.path
-    # pypi_path = vendor_path / "pypi"
-    # sys.path.insert(0, str(pypi_path))
-
-    # # 遍历 VENDOR_PATH 中的所有包目录并插入 sys.path
-    # for package in vendor_path.iterdir():
-    #     if package.is_dir():
-    #         sys.path.insert(0, str(package))
 
 
 def register_middleware(app: FastAPI):
@@ -177,9 +154,13 @@ def register_middleware(app: FastAPI):
 
 
 def run_app():
+    # 只在开发环境启用 reload，生产环境不重新加载
+    reload = settings.APP_RELOAD and settings.ENVIRONMENT == EnvironmentEnum.DEVELOPMENT
+
     uvicorn.run(
         app="senweaver.server:create_app",
         host=settings.APP_HOST,
         port=settings.APP_PORT,
-        reload=settings.APP_RELOAD,
+        reload=reload,
+        factory=True,
     )
