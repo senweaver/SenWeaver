@@ -2,6 +2,7 @@ from pathlib import Path
 from typing import Generic, Optional, Type
 from uuid import uuid4
 
+from config.settings import settings
 from fastapi import (
     APIRouter,
     FastAPI,
@@ -11,11 +12,6 @@ from fastapi import (
     status,
 )
 from fastcrud import FastCRUD
-from starlette.requests import HTTPConnection
-
-from app.system.core.auth import SystemAuth
-from app.system.model.user import User
-from config.settings import settings
 from senweaver.auth import models
 from senweaver.auth.auth import Auth
 from senweaver.auth.channel.jwt import JWTChannel
@@ -25,6 +21,10 @@ from senweaver.db.session import get_session
 from senweaver.exception.http_exception import DuplicateValueException
 from senweaver.logger import logger
 from senweaver.utils.generics import SnowflakeID
+from starlette.requests import HTTPConnection
+
+from app.system.core.auth import SystemAuth
+from app.system.model.user import User
 
 from ..websocket import manager
 from .router import SystemAuthRouter
@@ -47,7 +47,7 @@ class SystemAuthManager(
     async def get_auth(self, conn: Optional[HTTPConnection] = None):
         return self.auth
 
-    def run(self):
+    async def run(self):
         self.add_websocket()
 
     async def create_superuser(self, username: str, password: str, email: str):

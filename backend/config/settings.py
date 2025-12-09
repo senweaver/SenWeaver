@@ -2,7 +2,6 @@ import secrets
 from enum import Enum
 from functools import lru_cache
 from pathlib import Path
-from typing import Annotated, Literal
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -45,9 +44,9 @@ class Settings(BaseSettings):
     VERSION: str = "0.1.0"
     TITLE: str = "SenWeaver"
     DESCRIPTION: str = "Description"
-    DOCS_URL: str | None = f"/docs"
-    REDOCS_URL: str | None = f"/redocs"
-    OPENAPI_URL: str | None = f"/openapi.json"
+    DOCS_URL: str | None = "/docs"
+    REDOCS_URL: str | None = "/redocs"
+    OPENAPI_URL: str | None = "/openapi.json"
 
     # Uvicorn
     APP_HOST: str = "0.0.0.0"
