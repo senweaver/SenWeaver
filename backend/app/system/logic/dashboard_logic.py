@@ -1,10 +1,9 @@
 from datetime import datetime, timedelta
 
 from fastapi import Request
+from senweaver.db.types import ModelType
 from sqlalchemy import desc, func
 from sqlalchemy.future import select
-
-from senweaver.db.types import ModelType
 
 
 class DashboardLogic:
@@ -30,7 +29,16 @@ class DashboardLogic:
         data_count = result.all()
 
         # 将数据转换为字典形式，方便后续查找
-        dict_count = {d.created_time_day.strftime("%m-%d"): d.count for d in data_count}
+        dict_count = {}
+        for d in data_count:
+            # SQLite returns string, other DBs return date object
+            if isinstance(d.created_time_day, str):
+                date_str = datetime.strptime(d.created_time_day, "%Y-%m-%d").strftime(
+                    "%m-%d"
+                )
+            else:
+                date_str = d.created_time_day.strftime("%m-%d")
+            dict_count[date_str] = d.count
 
         # 创建结果列表
         results = []
