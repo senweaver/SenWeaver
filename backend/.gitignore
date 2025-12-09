@@ -148,3 +148,20 @@ dmypy.json
 cython_debug/
 
 /data/uploads/default
+
+# Ignore all files in data except .gitkeep
+data/*
+!data/.gitkeep
+data/*/
+
+# Ignore all files in alembic/db except .gitkeep
+alembic/db/*
+!alembic/db/.gitkeep
+
+# Ignore all files in alembic/versions except .gitkeep
+alembic/versions/*
+!alembic/versions/.gitkeep
+
+# Ignore all files in alembic/sql except .gitkeep
+alembic/sql/*
+!alembic/sql/.gitkeep
