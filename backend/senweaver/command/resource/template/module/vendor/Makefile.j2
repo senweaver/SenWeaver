@@ -1,0 +1,47 @@
+.PHONY: help install install-dev test lint format type build publish clean
+
+help:
+	@echo "Available commands:"
+	@echo "  make install      - Install the package"
+	@echo "  make install-dev  - Install the package with dev dependencies"
+	@echo "  make test         - Run tests with coverage"
+	@echo "  make lint         - Run linting checks with ruff"
+	@echo "  make format       - Format code with ruff"
+	@echo "  make type         - Run type checking with mypy"
+	@echo "  make build        - Build distribution packages"
+	@echo "  make publish      - Publish to PyPI"
+	@echo "  make clean        - Clean build artifacts"
+
+install:
+	pip install -e .
+
+install-dev:
+	pip install -e ".[dev]"
+
+test:
+	pytest
+
+lint:
+	ruff check {{ module_name }} tests
+
+format:
+	ruff format {{ module_name }} tests
+	ruff check --fix {{ module_name }} tests
+
+type:
+	mypy {{ module_name }}
+
+build: clean
+	python -m build
+
+publish: build
+	twine upload dist/*
+
+clean:
+	rm -rf build dist *.egg-info
+	find . -type d -name __pycache__ -exec rm -rf {} +
+	find . -type f -name "*.pyc" -delete
+	find . -type d -name ".pytest_cache" -exec rm -rf {} +
+	find . -type d -name ".mypy_cache" -exec rm -rf {} +
+	find . -type d -name ".coverage" -exec rm -rf {} +
+	find . -type d -name "htmlcov" -exec rm -rf {} +

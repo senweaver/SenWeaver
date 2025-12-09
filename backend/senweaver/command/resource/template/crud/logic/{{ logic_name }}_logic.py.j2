@@ -1,0 +1,19 @@
+from fastapi import Request
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from senweaver import SenweaverCRUD
+
+from ..model.{{model_file_name}} import {{model_name}}
+
+
+class {{logic_class_name}}Logic:
+    pass
+
+    # @classmethod
+    # async def demo_action(cls, request: Request):
+    #     db: AsyncSession = request.auth.db.session
+    #     crud = SenweaverCRUD({{model_name}})
+    #     total_count = await crud.count(db)
+    #     return total_count
+
+{{logic_name}}_logic = {{logic_class_name}}Logic

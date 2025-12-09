@@ -1,0 +1,16 @@
+"""Tests for {{ module_name }} module."""
+
+import pytest
+from {{ module_name }} import {{ model_class_name }}
+
+
+class TestBasic:
+    """Basic tests for {{ module_name }}."""
+
+    def test_import(self):
+        """Test that module can be imported."""
+        assert {{ model_class_name }} is not None
+
+    def test_sample_fixture(self, sample_fixture):
+        """Test with sample fixture."""
+        assert sample_fixture["key"] == "value"

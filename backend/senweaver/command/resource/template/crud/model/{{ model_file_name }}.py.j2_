@@ -1,0 +1,50 @@
+from typing import Optional
+from senweaver.core.models import BaseMixin,PKMixin
+{%- for import_stmt in imports %}
+{{ import_stmt }}
+{%- endfor %}
+
+{% macro oneline_field(column) -%}
+Field(default={{ column.default }}
+{%- if column.primary_key %}, primary_key={{ column.primary_key }}{% endif %}
+{%- if column.sa_type %}, sa_type={{ column.sa_type }}{% endif %}
+{%- if column.foreign_key %}, foreign_key="{{ column.foreign_key }}"{% endif %}
+{%- if column.index %}, index={{ column.index }}{% endif %}
+{%- if column.unique %}, unique={{ column.unique }}{% endif %}
+{%- if column.max_length %}, max_length={{ column.max_length }}{% endif %}
+{%- if column.nullable %}, nullable={{ column.nullable }}{% endif %}
+{%- if column.comment %}, description="{{ column.comment }}"{% endif %})
+{%- endmacro %}
+
+class {{ model_name }}Base(SQLModel):   
+    {%- for column in columns %}
+    {{ column.name }}: {{ column.type_annotation }} = {{ oneline_field(column)  }}
+    {%- endfor %}
+
+
+class {{ model_name }}(BaseMixin, {{ model_name }}Base, PKMixin, table=True):
+    __tablename__ = "{{ table_name }}"
+    __table_args__ = (
+        {"comment": "{{ table_comment }}"}
+    )
+    pass
+
+
+class {{ model_name }}Read({{ model_name }}Base, PKMixin):
+    pass
+
+
+class {{ model_name }}Create({{ model_name }}Base):
+    pass
+
+
+class {{ model_name }}CreateInternal({{ model_name }}Base):
+    pass
+
+
+class {{ model_name }}Update({{ model_name }}Base):
+    pass
+
+
+class {{ model_name }}UpdateInternal({{ model_name }}Update):
+    pass

@@ -1,0 +1,10 @@
+from fastapi import APIRouter
+
+from ..{{ module_name }} import module
+
+router = APIRouter(prefix='/common', tags=['{{ module_name }}'], route_class=module.route_class)
+
+
+@router.get("/health")
+async def health_check():
+    return {"status": "ok"}

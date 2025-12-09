@@ -1,0 +1,21 @@
+[tox]
+envlist = py38,py39,py310,py311,py312,lint,type
+
+[testenv]
+deps = pytest>=7.0
+       pytest-cov>=4.0
+commands = pytest {posargs}
+
+[testenv:lint]
+deps = ruff>=0.1.0
+commands = ruff check {{ module_name }} tests
+
+[testenv:type]
+deps = mypy>=1.0
+commands = mypy {{ module_name }}
+
+[testenv:format]
+deps = ruff>=0.1.0
+commands = 
+    ruff format {{ module_name }} tests
+    ruff check --fix {{ module_name }} tests

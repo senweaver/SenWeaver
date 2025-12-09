@@ -1,0 +1,65 @@
+from fastapi import APIRouter, Request
+
+from senweaver import senweaver_router
+from senweaver.auth.security import requires_permissions
+from senweaver.core.helper import SenweaverFilter
+from senweaver.core.senweaver_creator import SenweaverEndpointCreator
+from senweaver.utils.response import ResponseBase, error_response, success_response
+
+from ..{{module_name}} import module
+from ..logic.{{logic_name}}_logic import {{logic_class_name}}Logic
+from ..model.{{model_file_name}} import {{model_name}}
+
+path = '/{{api_path}}'
+
+router = APIRouter(tags=['{{table_name}}'], route_class=module.route_class)
+
+filter_config = SenweaverFilter(
+    # 例: {"id": None,...}
+    filters={"id": None},
+    # 如 {'creator_id': Authorizer.get_current_user_id}
+    backend_filters={},
+    fields=['id', 'created_time'],
+    table_fields=['created_time'],
+    ordering_fields=['created_time'],
+    extra_kwargs={},
+    relationships=[],
+    extra_fields=[],
+)
+
+
+def add_custom_router(self: SenweaverEndpointCreator):
+    """
+    添加自定义路由示例,默认需要登录的
+
+    注意事项：
+    - 路由路径使用 kebab-case 格式（如：demo-action）
+    - 权限字符串使用 camelCase 格式（如：demoAction）
+    - 函数名使用 snake_case 格式（如：demo_action）
+    """
+    pass
+    
+    # @self.router.get(self.path + '/demo-action', summary='示例操作')
+    # @requires_permissions(self.permission('demoAction'))
+    # async def demo_action(request: Request) -> ResponseBase:
+    #     result = await {{logic_class_name}}Logic.demo_action(request)
+    #     if not result:
+    #         return error_response()
+    #     return success_response(result)
+
+
+_router = senweaver_router(
+    module=module,
+    model={{model_name}},
+    filter_config=filter_config,
+    path=path,
+    tags=['{{table_name}}'],
+    custom_router=add_custom_router,
+)
+router.include_router(_router)
+
+# 免登录的接口
+# open_router = APIRouter(prefix=f"{path}/open", tags=['{{table_name}}'], route_class=module.route_class)
+# @open_router.get("/health")
+# def health():
+#     return "ok"
