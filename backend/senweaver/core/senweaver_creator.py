@@ -7,7 +7,6 @@ from fastapi import APIRouter, Body, Depends, Query
 from fastapi.requests import Request
 from fastapi.responses import StreamingResponse
 from fastapi.routing import APIRoute
-from fastcrud.endpoint.endpoint_creator import EndpointCreator
 from fastcrud.endpoint.helper import (
     _apply_model_pk,
     _extract_unique_columns,
@@ -17,10 +16,9 @@ from fastcrud.endpoint.helper import (
     _inject_dependencies,
 )
 from fastcrud.paginated.helper import compute_offset
-from pydantic import ValidationError, create_model, model_serializer, model_validator
+from pydantic import ValidationError, model_serializer, model_validator
 from pydantic.alias_generators import to_pascal
 from pydantic.fields import FieldInfo
-from sqlalchemy import delete
 from sqlalchemy import inspect as sa_inspect
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -364,17 +362,26 @@ class SenweaverEndpointCreator:
             if key not in model_columns:
                 raise ValueError(
                     f"Invalid filter column '{key}': not found in model '{
-                        self.model.__name__}' columns"
+                        self.model.__name__
+                    }' columns"
                 )
 
     async def get_session(self, request: Request):
         return request.auth.db.session if self.session is None else self.session
 
+    def permission(self, actions: str | Sequence[str]):
+        data = {
+            "value": f"{self.module.get_auth_str(self.resource_name, actions)}",
+            "check_data_scope": self.check_data_scope,
+            "check_field_scope": self.check_field_scope,
+        }
+        return data
+
     def _create_item(self):
         """Creates an endpoint for creating items in the database."""
 
         @requires_permissions(
-            f"{self.module.get_auth_str(self.resource_name, "create")}"
+            f"{self.module.get_auth_str(self.resource_name, 'create')}"
         )
         async def create(
             request: Request,
@@ -414,7 +421,7 @@ class SenweaverEndpointCreator:
 
         @_apply_model_pk(**self._primary_keys_types)
         @requires_permissions(
-            f"{self.module.get_auth_str(self.resource_name, "detail,list")}"
+            f"{self.module.get_auth_str(self.resource_name, 'detail,list')}"
         )
         async def read_item(
             request: Request, db: AsyncSession = Depends(self.get_session), **pkeys
@@ -448,7 +455,7 @@ class SenweaverEndpointCreator:
 
     def _read_choices(self, choices):
         @requires_permissions(
-            f"{self.module.get_auth_str(self.resource_name, "detail,list")}"
+            f"{self.module.get_auth_str(self.resource_name, 'detail,list')}"
         )
         async def read_choices(
             request: Request, db: AsyncSession = Depends(self.get_session)
@@ -464,7 +471,7 @@ class SenweaverEndpointCreator:
 
     def _import_data(self):
         @requires_permissions(
-            f"{self.module.get_auth_str(self.resource_name, "import")}"
+            f"{self.module.get_auth_str(self.resource_name, 'import')}"
         )
         async def import_data(
             request: Request,
@@ -487,7 +494,7 @@ class SenweaverEndpointCreator:
     def _search_columns(self):
         results = get_search_columns(self.model, self.select_schema, self.filter_config)
 
-        @requires_permissions(f"{self.module.get_auth_str(self.resource_name, "list")}")
+        @requires_permissions(f"{self.module.get_auth_str(self.resource_name, 'list')}")
         async def search_columns(
             request: Request, db: AsyncSession = Depends(self.get_session)
         ) -> ResponseBase:
@@ -553,7 +560,7 @@ class SenweaverEndpointCreator:
             else {}
         )
 
-        @requires_permissions(f"{self.module.get_auth_str(self.resource_name, "list")}")
+        @requires_permissions(f"{self.module.get_auth_str(self.resource_name, 'list')}")
         async def search_fields(
             request: Request, db: AsyncSession = Depends(self.get_session)
         ) -> ResponseBase:
@@ -615,7 +622,7 @@ class SenweaverEndpointCreator:
         dynamic_filters = _create_dynamic_filters(self.filter_config, self.column_types)
 
         @requires_permissions(
-            f"{self.module.get_auth_str(self.resource_name, "export")}"
+            f"{self.module.get_auth_str(self.resource_name, 'export')}"
         )
         async def export_data(
             request: Request,
@@ -660,13 +667,15 @@ class SenweaverEndpointCreator:
                     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                 )
                 filename = f"export_{self.model.__name__}_{
-                    datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.xlsx"
+                    datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+                }.xlsx"
             else:
                 stream = StringIO()
                 data_df.to_csv(stream, index=False)
                 media_type = "text/csv"
                 filename = f"export_{self.model.__name__}_{
-                    datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.csv"
+                    datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+                }.csv"
 
             response = StreamingResponse(
                 iter([stream.getvalue()]),
@@ -683,7 +692,7 @@ class SenweaverEndpointCreator:
     def _read_items(self, is_tree=False):
         dynamic_filters = _create_dynamic_filters(self.filter_config, self.column_types)
 
-        @requires_permissions(f"{self.module.get_auth_str(self.resource_name, "list")}")
+        @requires_permissions(f"{self.module.get_auth_str(self.resource_name, 'list')}")
         async def read_items(
             request: Request,
             db: AsyncSession = Depends(self.get_session),
@@ -729,9 +738,7 @@ class SenweaverEndpointCreator:
                     detail="Conflicting parameters: Use either 'page' and 'itemsPerPage' for paginated results or 'offset' and 'limit' for specific range queries."
                 )
             if is_paginated:
-                offset = compute_offset(
-                    page=page, items_per_page=items_per_page
-                )  # type: ignore
+                offset = compute_offset(page=page, items_per_page=items_per_page)  # type: ignore
                 limit = items_per_page
                 crud_data = await self.crud.get_multi(
                     db,
@@ -775,7 +782,7 @@ class SenweaverEndpointCreator:
     def _read_items_cursor(self):
         dynamic_filters = _create_dynamic_filters(self.filter_config, self.column_types)
 
-        @requires_permissions(f"{self.module.get_auth_str(self.resource_name, "list")}")
+        @requires_permissions(f"{self.module.get_auth_str(self.resource_name, 'list')}")
         async def read_items_cursor(
             request: Request,
             db: AsyncSession = Depends(self.get_session),
@@ -821,7 +828,7 @@ class SenweaverEndpointCreator:
     def _update_item(self):
         @_apply_model_pk(**self._primary_keys_types)
         @requires_permissions(
-            f"{self.module.get_auth_str(self.resource_name, "update")}"
+            f"{self.module.get_auth_str(self.resource_name, 'update')}"
         )
         async def update_item(
             request: Request,
@@ -849,7 +856,7 @@ class SenweaverEndpointCreator:
     def _delete_item(self):
         @_apply_model_pk(**self._primary_keys_types)
         @requires_permissions(
-            f"{self.module.get_auth_str(self.resource_name, "delete")}"
+            f"{self.module.get_auth_str(self.resource_name, 'delete')}"
         )
         async def delete_item(
             request: Request, db: AsyncSession = Depends(self.get_session), **pkeys
@@ -883,7 +890,7 @@ class SenweaverEndpointCreator:
         )
 
         @requires_permissions(
-            f"{self.module.get_auth_str(self.resource_name, "batchDelete")}"
+            f"{self.module.get_auth_str(self.resource_name, 'batchDelete')}"
         )
         async def batch_delete_items(
             request: Request,
@@ -925,7 +932,7 @@ class SenweaverEndpointCreator:
 
         @_apply_model_pk(**self._primary_keys_types)
         @requires_permissions(
-            f"{self.module.get_auth_str(self.resource_name, "destroy")}"
+            f"{self.module.get_auth_str(self.resource_name, 'destroy')}"
         )
         async def destroy(
             request: Request, db: AsyncSession = Depends(self.get_session), **pkeys
@@ -991,8 +998,7 @@ class SenweaverEndpointCreator:
                 tags=self.tags,
                 dependencies=_inject_dependencies(create_deps),
                 summary=f"添加{self.title}",
-                description=f"Create a new {
-                    self.model.__name__} row in the database.",
+                description=f"Create a new {self.model.__name__} row in the database.",
             )
         if ("read" in included_methods) and ("read" not in deleted_methods):
             self.router.add_api_route(
@@ -1005,7 +1011,8 @@ class SenweaverEndpointCreator:
                 dependencies=_inject_dependencies(read_deps),
                 summary=f"获取{self.title}详情",
                 description=f"Read a single {
-                    self.model.__name__} row from the database by its primary keys",
+                    self.model.__name__
+                } row from the database by its primary keys",
             )
         if ("read_multi" in included_methods) and ("read_multi" not in deleted_methods):
             self.router.add_api_route(
@@ -1018,7 +1025,8 @@ class SenweaverEndpointCreator:
                 dependencies=_inject_dependencies(read_multi_deps),
                 summary=f"获取{self.title}列表",
                 description=f"Read multiple {
-                    self.model.__name__} rows from the database with a limit and an offset.",
+                    self.model.__name__
+                } rows from the database with a limit and an offset.",
             )
         if ("read_multi_cursor" in included_methods) and (
             "read_multi_cursor" not in deleted_methods
@@ -1032,7 +1040,7 @@ class SenweaverEndpointCreator:
                 tags=self.tags,
                 dependencies=_inject_dependencies(read_multi_deps),
                 summary=f"通过游标获取{self.title}列表",
-                description=f"Implements cursor-based pagination for fetching records.",
+                description="Implements cursor-based pagination for fetching records.",
             )
 
         if (
@@ -1129,7 +1137,8 @@ class SenweaverEndpointCreator:
                 dependencies=_inject_dependencies(update_deps),
                 summary=f"更新{self.title}",
                 description=f"Update an existing {
-                    self.model.__name__} row in the database by its primary keys: {self.primary_key_names}.",
+                    self.model.__name__
+                } row in the database by its primary keys: {self.primary_key_names}.",
             )
         if ("delete" in included_methods) and ("delete" not in deleted_methods):
             path = self._get_endpoint_path(operation="delete")
@@ -1143,7 +1152,8 @@ class SenweaverEndpointCreator:
                 dependencies=_inject_dependencies(delete_deps),
                 summary=f"删除{self.title}",
                 description=f"{delete_description} {
-                    self.model.__name__} row from the database by its primary keys: {self.primary_key_names}.",
+                    self.model.__name__
+                } row from the database by its primary keys: {self.primary_key_names}.",
             )
 
         if (
@@ -1162,7 +1172,8 @@ class SenweaverEndpointCreator:
                 dependencies=_inject_dependencies(delete_deps),
                 summary=f"批量删除{self.title}",
                 description=f"{delete_description} {
-                    self.model.__name__} rows from the database by its primary keys",
+                    self.model.__name__
+                } rows from the database by its primary keys",
             )
 
         if (
@@ -1180,7 +1191,8 @@ class SenweaverEndpointCreator:
                 dependencies=_inject_dependencies(db_delete_deps),
                 summary=f"物理删除{self.title}",
                 description=f"Permanently delete a {
-                    self.model.__name__} row from the database by its primary keys: {self.primary_key_names}.",
+                    self.model.__name__
+                } row from the database by its primary keys: {self.primary_key_names}.",
             )
 
     def get_openapi_extra(self):
