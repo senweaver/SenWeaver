@@ -1,9 +1,0 @@
-from fastapi import APIRouter
-from pathlib import Path as FilePath
-from ..logic.common_logic import common_logic
-from ..{{ module_name }} import module
-
-#path = FilePath(__file__)
-#resource_name = f"{module.name}:{path.stem}"
-
-router = APIRouter(prefix='/common', tags=["common"], route_class=module.route_class)
