@@ -5,7 +5,7 @@ import pkgutil
 import random
 import re
 import string
-from copy import deepcopy
+from copy import copy
 from datetime import datetime, timezone
 from typing import (
     Any,
@@ -15,7 +15,6 @@ from typing import (
     List,
     Optional,
     Set,
-    Tuple,
     Type,
     Union,
 )
@@ -145,9 +144,11 @@ def load_modules(
 
 
 def make_field_optional(field: FieldInfo, default: Any = None) -> tuple[Any, FieldInfo]:
-    new = deepcopy(field)
+    new = copy(field)
     new.default = default
-    new.annotation = Optional[field.annotation]
+    new.annotation = field.annotation | None
+    if new.json_schema_extra:
+        new.json_schema_extra = {**new.json_schema_extra}
     return new.annotation, new
 
 
