@@ -1,4 +1,4 @@
-from pydantic import ConfigDict, field_validator
+from pydantic import ConfigDict
 from pydantic_settings import BaseSettings
 
 
@@ -12,4 +12,4 @@ class Settings(BaseSettings):
     homepage: str
     url: str
     option: dict
-    model_config = ConfigDict(populate_by_name=True)
+    model_config = ConfigDict(populate_by_name=True, extra="allow")

@@ -85,12 +85,10 @@ class Module(ABC):
                         raise ValueError(
                             f"{cls.__tablename__} must start with {self.name}_"
                         )
-                    cls.__senweaver_name__ = f"{self.name}.{
-                        cls.__name__.lower()}"
+                    cls.__senweaver_name__ = f"{self.name}.{cls.__name__.lower()}"
                     self.module_models[cls.__senweaver_name__] = cls
 
     def load_from_yaml(self):
-
         with open(self.config_path, "r", encoding="utf-8") as open_yaml:
             settings_dict = yaml.safe_load(open_yaml)
         self.settings = Settings(**settings_dict)
@@ -182,10 +180,7 @@ class Module(ABC):
                 try:
                     data = json.load(file)
                 except json.JSONDecodeError as e:
-                    print(
-                        f"Failed to decode JSON from {
-                        file_path}: {e}"
-                    )
+                    print(f"Failed to decode JSON from {file_path}: {e}")
                     continue
             if len(data) == 0:
                 print(f"Empty JSON file: {file_path}")
@@ -245,12 +240,6 @@ class Module(ABC):
             except Exception as e:
                 print(e)
 
-    def on_before_start(self):
-        pass
-
-    def on_after_start(self):
-        pass
-
     def start(self, app: FastAPI):
         from .manager import module_manager
 
@@ -259,7 +248,6 @@ class Module(ABC):
             raise ValueError(f"module {self.name} app is None")
         if not self.settings.enabled:
             return
-        self.on_before_start()
         load_routers(
             app=self.app,
             package_path=self.package,
@@ -280,11 +268,9 @@ class Module(ABC):
                 StaticFiles(directory=static_file_path, html=True),
                 name=f"{self.type}_{self.name}_web",
             )
-        self.run()
         self.ready = True
         module_manager.add(self.name, self)
-        self.on_after_start()
 
     @abstractmethod
-    def run(self):
+    async def run(self):
         raise NotImplementedError()  # pragma: no cover
